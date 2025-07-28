@@ -17,6 +17,39 @@
   </form>
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+const searchInput = document.querySelector('.search')
+const suggestions = document.querySelector('.suggestions')
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function matchCities(search, cities) {
+  const re = new RegExp(search, 'gi')
+  const matches = cities.filter((place) => place.city.match(re) || place.state.match(re))
+  return matches
+}
+
+function injectCities(e) {
+  const matches = matchCities(e.target.value, cities)
+  const re = new RegExp(e.target.value, 'gi');
+  suggestions.innerHTML = matches.map(place => {
+    const city = place.city.replace(re, `<span class="hl">${e.target.value}</span>`)
+    const state = place.state.replace(re, `<span class="hl">${e.target.value}</span>`)
+    return `
+    <li>
+      <span>${city}, ${state}</span>
+      <span class="population">${numberWithCommas(place.population)}</span>
+    </li>
+    `
+  }).join('')
+}
+let cities = []
+
+fetch(endpoint)
+  .then( response => response.json())
+  .then(data => cities.push(...data))
+searchInput.addEventListener('keyup', injectCities)
 
 </script>
 </body>
