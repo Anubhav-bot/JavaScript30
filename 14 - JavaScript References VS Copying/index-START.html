@@ -26,12 +26,23 @@
     // Why? It's because that is an array reference, not an array copy. They both point to the same array!
 
     // So, how do we fix this? We take a copy instead!
+    const player0 = players.slice()
+    player0[0] = 'player0'
 
     // one way
 
     // or create a new array and concat the old one in
+    const player1 = [].concat(players);
+    player1[1] = 'player1'
 
     // or use the new ES6 Spread
+    const player2 = [...players]
+    player2[2] = 'player2'
+
+    const player3 = Array.from(players)
+    player3[3] = 'player3'
+
+    console.table({players, player0, player1, player2, player3})
 
     // now when we update it, the original one isn't changed
 
@@ -46,10 +57,30 @@
     // and think we make a copy:
 
     // how do we take a copy instead?
+    const p1 = Object.assign({}, person, {age: 12});
+    //or
+    const p2 = Object.assign({}, person)
+    p2.age = 15;
 
     // We will hopefully soon see the object ...spread
+    // const p2 = [...person];
 
     // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+    console.table({person, p1, p2})
+
+    const peepool = {
+      name: 'me',
+      socials: {
+        facebook: 'meme',
+        instagram: 'reel'
+      }
+    }
+
+    const peepol_copy = JSON.parse(JSON.stringify(peepool))
+    const pp1 = Object.assign({}, peepol_copy)
+    pp1.socials.facebook = 'new'
+
+    console.table({peepool, peepol_copy, pp1})
 
   </script>
 
