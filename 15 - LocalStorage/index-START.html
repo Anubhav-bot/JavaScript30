@@ -24,12 +24,68 @@
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
     </form>
+    <button class="check-all">Check All</button>
+    <button class="uncheck-all">Uncheck All</button>
   </div>
 
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) ||  [];
+  const checkAll = document.querySelector('.check-all');
+  const uncheckAll = document.querySelector('.uncheck-all');
+
+  function addItem(e) {
+    e.preventDefault();
+    const input = this.querySelector('[name=item]');
+    const item = {
+      text: input.value,
+      done: false,
+    }
+    items.push(item);
+    
+    localStorage.setItem('items', JSON.stringify(items));
+    renderItems(items, itemsList);
+    this.reset();
+  }
+
+  function renderItems(items = [], on) {
+    on.innerHTML = items.map((item, i) => {
+      return `
+        <li>
+          <input type="checkbox" data-index=${i} id="item${i}" ${item.done ? 'checked' : ''} />
+          <label for="item${i}">${item.text}</label>
+        </li>
+      `
+    }).join('')
+  }
+
+  function handleClick(e) {
+    if (!e.target.matches('input')) return;
+    const index = e.target.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    renderItems(items, itemsList);
+  }
+
+  addItems.addEventListener('submit', addItem)
+  itemsList.addEventListener('click', handleClick)
+  renderItems(items, itemsList);
+
+  checkAll.addEventListener('click', (e) => {
+    items.forEach((item, i) => {
+      items[i].done = true;
+      localStorage.setItem('items', JSON.stringify(items));
+      renderItems(items, itemsList);
+    })
+  })
+  uncheckAll.addEventListener('click', (e) => {
+    items.forEach((item, i) => {
+      items[i].done = false;
+      localStorage.setItem('items', JSON.stringify(items));
+      renderItems(items, itemsList);
+    })
+  })
 
 </script>
 

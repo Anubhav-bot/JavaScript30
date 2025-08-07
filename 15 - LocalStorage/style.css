@@ -79,3 +79,8 @@ h2 {
   outline: 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
+
+.check-all, .uncheck-all {
+  margin-top: 15px;
+}
+
