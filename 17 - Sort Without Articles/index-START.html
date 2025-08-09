@@ -47,7 +47,19 @@
   <ul id="bands"></ul>
 
 <script>
+const ul = document.querySelector('#bands');
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+function sortFn(a, b) {
+  a_str = a.replace(/^(a |an |the )/i, '')
+  b_str = b.replace(/^(a |an |the )/i, '')
+
+  return a_str.localeCompare(b_str);
+}
+
+bands.sort(sortFn);
+ul.innerHTML = bands.map(band => `
+                                  <li>${band}</li>
+`).join("")
 
 
 </script>
