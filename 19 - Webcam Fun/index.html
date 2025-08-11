@@ -11,7 +11,18 @@
   <div class="photobooth">
     <div class="controls">
       <button onClick="takePhoto()">Take Photo</button>
-<!--       <div class="rgb">
+        <hr />
+        <h2> Filters </h2>
+        <button class="filterBtn" name="redEffect">redEffect</button>
+        <button class="filterBtn" name="gayEffect">rgbSplit</button>
+        <button class="filterBtn" name="noFilter">clearFilters</button>
+        <hr />
+
+        <h2>Green Screen tuning</h2>
+        <input type='checkbox' id='gstoggle' class="greenScreenToggle" />
+        <label for='gstoggle'>Enable Green Screen</label>
+
+       <div class="rgb">
         <label for="rmin">Red Min:</label>
         <input type="range" min=0 max=255 name="rmin">
         <label for="rmax">Red Max:</label>
@@ -30,7 +41,7 @@
         <input type="range" min=0 max=255 name="bmin">
         <label for="bmax">Blue Max:</label>
         <input type="range" min=0 max=255 name="bmax">
-      </div> -->
+      </div>
     </div>
 
     <canvas class="photo"></canvas>
