@@ -10,8 +10,50 @@
   <div class="words" contenteditable>
   </div>
 
+  <button class="start-btn">Start!</button>
+
 <script>
+  const startBtn = document.querySelector('.start-btn');
+  const stopBtn = document.querySelector('.stop-btn');
+
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (typeof SpeechRecognition === "undefined") {
+    console.error("Speech Recognition is not supported in this browser.");
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+  // recognition.continuous = true;
+
+  let p = document.createElement('p');
+  const words = document.querySelector('.words');
+  words.appendChild(p);
+
+
+  recognition.addEventListener('result', (e) => {
+    console.log(e);
+    const transcript = Array.from(e.results)
+      .map(result => result[0])
+      .map(resultAlternative => resultAlternative.transcript)
+      .join('');
+    p.textContent = transcript;
+
+    if (e.results[0].isFinal) {
+      p = document.createElement('p');
+      words.appendChild(p);
+    }
+  })
+
+  function start() {
+    recognition.start();
+    console.log("Ready to hear...");
+  }
+
+  recognition.addEventListener('end', start);
+
+  startBtn.addEventListener('click', start);
+
 
 
 </script>
